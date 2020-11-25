@@ -15,8 +15,8 @@
 
     <script type="text/babel">
         var CommentsComponent = React.createClass({
-            edit: function(){
-                alert("Editing Comment ....");
+            edit: function(arg1){
+                alert("Editing Comment ...."+arg1 + "---");
             },
             remove: function(){
                 alert("Removing Comment ....");
@@ -26,7 +26,7 @@
                     <div className= "commentContainer">
                         <p>
                             <div className= "commentText">This is a comment {this.props.children}</div>
-                            <button className= "button-primary" onClick = {this.edit}>Edit</button>
+                            <button className= "button-primary" onClick = {() => this.edit(this.props.children)}>Edit</button>
                             <button className= "button-danger" onClick = {this.remove}>Remove</button>
                             <br></br>
                         </p>
