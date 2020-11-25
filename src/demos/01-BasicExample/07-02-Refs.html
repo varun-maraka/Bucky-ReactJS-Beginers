@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>React - Template</title>
+    <link rel="stylesheet" type="text/css" href="../../css/main.css">
+    <script src="../../js/react.min.js"></script>
+    <script src="../../js/react-dom.min.js"></script>
+    <script src="../../js/browser.min.js"></script>
+</head>
+<body>
+
+    <div id="container"></div>
+
+    <script type="text/babel">
+        var CheckBoxComponent = React.createClass({
+            getInitialState: function(){
+                return {isCheckBoxChecked: true,stateVar2: "Hello"}
+            },
+            handleCheckbox: function(){
+                this.setState({isCheckBoxChecked: !this.state.isCheckBoxChecked})
+            },
+            render: function(){
+                var msg;
+                if(this.state.isCheckBoxChecked){
+                    msg = "Checked the Box";
+                }else{
+                    msg = "UnChecked the Box";
+                }
+                return(
+                    <div>
+                        <input type= "checkbox" onChange = {this.handleCheckbox} defaultChecked= {this.state.isCheckBoxChecked}/>
+                        <h3>Checkbox is {msg}</h3>
+                    </div>
+                );
+            }
+        });
+        var CommentsComponent = React.createClass({
+            getInitialState: function(){
+                return {isEditButtonClicked: false,stateVar2: "Hello"};
+            },
+            edit: function(){
+                alert("Editing Comment ....");
+                this.setState({isEditButtonClicked:true});
+            },
+            remove: function(){
+                alert("Removing Comment ....");
+            },
+            save: function(){
+                this.setState({isEditButtonClicked:false});
+                //alert("Value is :" + {this.props.children});
+            },
+            renderNormalText: function(){
+                return(
+                    <div className= "commentContainer">
+                            <div className= "commentText">This is a comment {this.props.children}</div>
+                            <button className= "button-primary" onClick = {this.edit}>Edit</button>
+                            <button className= "button-danger" onClick = {this.remove}>Remove</button>
+                            <br></br>
+                    </div>
+                );
+            },
+            renderEditableText: function(){
+                return(
+                    <div className= "commentContainer">
+                        <p>
+                            <textarea ref="newText" defaultValue={this.props.children} value={this.state.value} ></textarea>
+                            <button className= "button-success" onClick = {this.save}>Save</button>
+                            <button className= "button-danger" onClick = {this.remove}>Remove</button>
+                            <br></br>
+                        </p>
+                    </div>
+                );
+            },
+            render: function(){
+                if(this.state.isEditButtonClicked){
+                    return this.renderEditableText();
+                }else{
+                    return this.renderNormalText();
+                }
+            }
+        });
+        var MovieHolder = React.createClass({
+            render: function(){
+                return(
+                    <div>
+                        <h1>Movie Name:{this.props.movName} </h1>
+                        <h2>Category: {this.props.movCateg}</h2>
+                    </div>
+                );
+            }
+        });
+        var ComponentDemo = React.createClass({
+            render: function (){
+                return (
+                    <div>
+                        <h2>Welcome to React components!</h2>
+                        <h3>Sub component!</h3>
+                    </div>
+                    );
+            }
+        });
+        var Board = React.createClass({
+            getInitialState: function(){
+                return {
+                    comments: [
+                        'I like Idly',
+                        '2dnd comment',
+                        'Done'
+                    ]
+                }
+            },
+            removeComment: function(i){
+                var arr = this.state.comments;
+                arr.splice(i,1);
+                this.setState({comments: arr});
+
+            },
+            updateComment: function(newText, i){
+                var arr = this.state.comments;
+                arr[i] = newText;
+                this.setState({comments: arr})
+            },
+            eachComment: function(text, i){
+                return (
+                        <CommentsComponent key={i} index={i}>
+                            {text}  
+                        </CommentsComponent>
+                    );
+            },
+            render: function(){
+                return(
+                    <div  className= "board">
+                        {
+                            this.state.comments.map(this.eachComment)
+                        }
+                    </div>
+                );
+            }
+        });
+        ReactDOM.render(
+            <div>
+                {/* <CheckBoxComponent />  whenClicked is a property not an event, per se. */}
+                <div  className= "board">
+                    <ComponentDemo />
+                    <CommentsComponent>1.Comment First</CommentsComponent>
+                    <CommentsComponent>2.Comment Second</CommentsComponent>
+                    <MovieHolder movName = "Movie1" movCateg = "Category1"/>
+                    <MovieHolder movName = "Movie2" movCateg = "Category2"/>
+                </div>
+                <Board/>
+            </div>
+            ,
+            document.getElementById('container')
+        );
+
+        
+
+    </script>
+
+</body>
+</html>

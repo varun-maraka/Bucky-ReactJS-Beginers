@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>React - Template</title>
+    <script src="../../js/react.min.js"></script>
+    <script src="../../js/react-dom.min.js"></script>
+    <script src="../../js/browser.min.js"></script>
+</head>
+<body>
+
+    <div id="container"></div>
+
+    <script type="text/babel">
+        var MovieHolder = React.createClass({
+            render: function(){
+                return(
+                    <div>
+                        <h1>Movie Name:{this.props.movName} </h1>
+                        <h2>Category: {this.props.movCateg}</h2>
+                    </div>
+                );
+            }
+        });
+        var ComponentDemo = React.createClass({
+            render: function (){
+                return (
+                    <div>
+                        <h2>Welcome to React components!</h2>
+                        <h3>Sub component!</h3>
+                    </div>
+                    );
+            }
+        });
+        ReactDOM.render(
+            <div>
+                <ComponentDemo />
+                <MovieHolder movName = "Movie1" movCateg = "Category1"/>
+                <MovieHolder movName = "Movie2" movCateg = "Category2"/>
+            </div>
+            ,
+            document.getElementById('container')
+        );
+    </script>
+
+</body>
+</html>
