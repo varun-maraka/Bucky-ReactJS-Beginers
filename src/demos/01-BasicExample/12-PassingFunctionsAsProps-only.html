@@ -46,10 +46,12 @@
             },
             remove: function(){
                 alert("Removing Comment ....");
+                this.props.deleteFromBoard(this.props.index);
             },
             save: function(){
                 this.setState({isEditButtonClicked:false});
                 //alert("Value is :" + {this.props.children});
+                this.props.updateCommentText(this.refs.newText.value, this.props.index);
             },
             renderNormalText: function(){
                 return(
@@ -81,16 +83,7 @@
                 }
             }
         });
-        var MovieHolder = React.createClass({
-            render: function(){
-                return(
-                    <div>
-                        <h1>Movie Name:{this.props.movName} </h1>
-                        <h2>Category: {this.props.movCateg}</h2>
-                    </div>
-                );
-            }
-        });
+        
         var ComponentDemo = React.createClass({
             render: function (){
                 return (
@@ -111,21 +104,21 @@
                     ]
                 }
             },
-            removeComment: function(i){  // This function don't work until we send it to comments compnent and call it
+            removeComment: function(i){
                 var arr = this.state.comments;
                 arr.splice(i,1);
                 this.setState({comments: arr});
 
             },
-            updateComment: function(newText, i){ // This function don't work until we send it to comments compnent and call it
+            updateComment: function(newText, i){
                 var arr = this.state.comments;
                 arr[i] = newText;
                 this.setState({comments: arr})
             },
             eachComment: function(text, i){
                 return (
-                        <CommentsComponent key={i} index={i}>
-                            {text}  
+                        <CommentsComponent key={i} index={i} updateCommentText = {this.updateComment} deleteFromBoard = {this.removeComment}>
+                            {i+1} -- {text}  
                         </CommentsComponent>
                     );
             },
@@ -144,10 +137,6 @@
                 {/* <CheckBoxComponent />  whenClicked is a property not an event, per se. */}
                 <div  className= "board">
                     <ComponentDemo />
-                    <CommentsComponent>1.Comment First</CommentsComponent>
-                    <CommentsComponent>2.Comment Second</CommentsComponent>
-                    <MovieHolder movName = "Movie1" movCateg = "Category1"/>
-                    <MovieHolder movName = "Movie2" movCateg = "Category2"/>
                 </div>
                 <Board/>
             </div>
